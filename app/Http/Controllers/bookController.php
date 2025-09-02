@@ -90,7 +90,25 @@ class bookController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $book = Book::find($id);
+
+        $rules = [
+            'id_location' => ['required'],
+            'id_category' => ['required'],
+            'title' => ['required'],
+            'writer' => ['required'],
+            'publisher' => ['required'],
+            'publish_year' => ['required'],
+            'description' => ['nullable'],
+            'stock' => ['required'],
+        ];
+        $validation = Validator::make($request->all(), $rules);
+        if ($validation->fails()) {
+            return back()->withErrors($validation)->withInput();
+        }
+
+        $book->update($validation->validated());
+        return redirect()->to(('books'));
     }
 
     /**
