@@ -65,6 +65,101 @@
     </section>
 
   </main><!-- End #main -->
+  <script>
+    let category = document.querySelector('#id_category');
+    category.addEventListener('change', async function(){
+        const id_category = this.value; // artinya si selector id_category, mau ambil value
+        const selectBooks = document.getElementById('id_books');
+        selectBooks.innerHTML = "<option value='' selected disabled>--Pilih Buku--</option>";
+        if (!category) {
+            selectBooks.innerHTML = "<option value='' selected disabled>--Pilih Buku--</option>";
+            return;
+        }
+
+        try {
+            const res = await fetch(`/get-buku/${id_category}`);
+            const data = await res.json();
+            data.data.forEach(books => {
+                const option = document.createElement('option');
+                option.value = books.id;
+                option.textContent = books.title;
+                selectBooks.appendChild(option);
+            });
+        } catch (error) {
+            console.log('error fetch buku', error);
+        }
+    });
+
+
+    document.querySelector('#addRow').addEventListener('click', function(){
+        const tbody = document.querySelector('#tableTrans');
+        const tr = document.createElement('tr');
+        const td = document.createElement('td');
+        td.textContent = 1;
+        tr.appendChild(td);
+    });
+
+</script>
+
+<script>
+    let count = 0;
+    document.getElementById('addRow').addEventListener('click', function() {
+        const tbody = document.querySelector('#tableTrans tbody');
+        const selectBook = document.getElementById('id_books');
+        const idBook = selectBook.value;
+        const Bookname = selectBook.options[selectBook.selectedIndex] ?.text || '';
+
+        if (!idBook) {
+            alert ('Pilih buku terlebih dahulu');
+            return;
+        }
+
+        const no = count++;
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+        <tr>${no}</tr>
+        <td>${Bookname}</td>
+        <td><button class='btn btn-danger'>Hapus</button></td>`;
+
+        tbody.appendChild(tr);
+    });
+
+</script>
+
+<script>
+    // let count = 0;
+    // document.querySelector('#addRow').addEventListener('click', function(){
+    //     count++;
+    //     const Bookselect = document.querySelector('#id_books').value;
+    //     const bukuSelect = document.querySelector('#id_books');
+    //     const tbody = document.querySelector('#tableTrans tbody');
+    //     const bookName = bukuSelect.options[bukuSelect.selectedIndex]?.text || '' ;
+    //     if (!Bookselect) {
+    //     alert('Pilih buku terlebih dahulu!');
+    //         return;
+    //     }
+    //     const trNo = document.createElement('tr');
+    //     const tdNo = document.createElement('td');
+    //     tdNo.textContent = count;
+
+    //     trNo.appendChild(tdNo);
+
+    //     const tdName = document.createElement('td');
+    //     tdName.textContent = bookName;
+    //     trNo.appendChild(tdName);
+
+    //     const tdAction = document.createElement('td');
+    //     const delBtn = document.createElement('button');
+    //     delBtn.textContent = 'hapus';
+    //     delBtn.className = 'btn btn-danger';
+    //     // tdAction.innerHTML = '<button class="btn btn-danger">hapus</button>';
+    //     tdAction.appendChild(delBtn);
+    //     trNo.appendChild(tdAction);
+
+
+    //     tbody.appendChild(trNo);
+    // });
+</script>
 
   <!-- ======= Footer ======= -->
   @include('admin.inc.footer')
@@ -85,6 +180,7 @@
 
   <!-- Template Main JS File -->
   <script src="{{ asset('assets/js/main.js') }}"></script>
+
 
 </body>
 
