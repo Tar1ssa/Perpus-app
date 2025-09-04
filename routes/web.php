@@ -53,7 +53,8 @@ Route::middleware('auth')->group(function () {
     // transaksi
     Route::resource('transactions', transactionController::class);
     Route::get('get-buku/{id}', [transactionController::class, 'getBukuByIdCategory']);
-    Route::get('print/borrowed/{id}', [transactionController::class, 'print']);
+    Route::get('print-borrowed/{id}', [transactionController::class, 'print'])->name('print-borrowed');
+
     // end transaksi
 });
 

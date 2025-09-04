@@ -73,9 +73,12 @@ class transactionController extends Controller
             }
 
             DB::commit();
-            return redirect()->to('print/borrowed/', $insertBorrow->id);
+            return redirect()->route('print-borrowed', $insertBorrow->id);
+            // return $insertBorrow->id;
+            // return redirect()->to('print-borrowed', $insertBorrow->id);
         } catch (\Throwable $th) {
             DB::rollBack();
+            return back()->withErrors(['Error' => 'transaksi gagal']);
         }
     }
 
@@ -84,7 +87,8 @@ class transactionController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $borrow = Borrows::with('memberName', 'detailBorrow.books')->find($id);
+        return view('admin.transactions.show', compact('borrow'));
     }
 
     /**

@@ -30,8 +30,10 @@
                                 <td>{{ $valuedatas->return_date }}</td>
                                 <td>{{ $valuedatas->note }}</td>
                                 <td>
-                                    <a href="{{ route('transactions.edit',$valuedatas->id) }}" class="btn btn-success">Edit</a>
-                                    <form onclick="return confirm('Yakin ingin menghapus ?')" action="{{ route('member.softdelete', $valuedatas->id) }}" method="post" class="d-inline">
+                                    <a href="{{ route('transactions.show', $valuedatas->id) }}" class="btn btn-success btn-sm">
+                                        <i class="bi bi-eye"></i>
+                                    </a>
+                                    <form onclick="return confirm('Yakin ingin menghapus ?')" action="{{ route('transactions.destroy', $valuedatas->id) }}" method="post" class="d-inline">
                                         @csrf
                                         @method('DELETE')
                                     <button class="btn btn-danger">Delete</button>
