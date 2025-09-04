@@ -25,10 +25,10 @@
                             @foreach ($datas as $keydatas => $valuedatas)
                                 <tr>
                                 <td>{{ $keydatas += 1 }}</td>
-                                <td>{{ $valuedatas->nomor_anggota }}</td>
-                                <td>{{ $valuedatas->nik }}</td>
-                                <td>{{ $valuedatas->nama }}</td>
-                                <td>{{ $valuedatas->phone }}</td>
+                                <td>{{ $valuedatas->memberName->nama }}</td>
+                                <td>{{ $valuedatas->trans_number }}</td>
+                                <td>{{ $valuedatas->return_date }}</td>
+                                <td>{{ $valuedatas->note }}</td>
                                 <td>
                                     <a href="{{ route('transactions.edit',$valuedatas->id) }}" class="btn btn-success">Edit</a>
                                     <form onclick="return confirm('Yakin ingin menghapus ?')" action="{{ route('member.softdelete', $valuedatas->id) }}" method="post" class="d-inline">

@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Borrows;
 use App\Models\Book;
 use App\Models\Member;
+use App\Models\Borrows;
 use App\Models\Categories;
 use Illuminate\Http\Request;
+use App\Models\DetailBorrows;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\DB;
 
 class transactionController extends Controller
 {
@@ -16,7 +18,8 @@ class transactionController extends Controller
      */
     public function index()
     {
-        $datas = Member::get();
+
+        $datas = Borrows::orderBy('id', 'desc')->get();
         $title = 'Transaksi';
         return view('admin.transactions.index', compact('title', 'datas'));
     }
@@ -51,7 +54,29 @@ class transactionController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        DB::beginTransaction();
+
+        try {
+            $insertBorrow = Borrows::create([
+                'id_anggota' => $request->id_anggota,
+                'trans_number' => $request->trans_number,
+                'id_category' => $request->id_category,
+                'note' => $request->note,
+                'return_date' => $request->return_date
+            ]);
+
+            foreach ($request->id_buku as $key => $value) {
+                DetailBorrows::create([
+                    'id_borrows' => $insertBorrow->id,
+                    'id_books' => $request->id_buku[$key]
+                ]);
+            }
+
+            DB::commit();
+            return redirect()->to('print/borrowed/', $insertBorrow->id);
+        } catch (\Throwable $th) {
+            DB::rollBack();
+        }
     }
 
     /**
@@ -94,5 +119,12 @@ class transactionController extends Controller
         } catch (\Throwable $th) {
             return response()->json(['status' => 'error', 'message' => $th->getMessage()], 500);
         }
+    }
+
+    public function print($id_borrow)
+    {
+        $borrow = Borrows::with('memberName', 'detailBorrow.books')->find($id_borrow);
+        // $borrow = Borrows::find($id_borrow);
+        return view('admin.transactions.print', compact('borrow'));
     }
 }

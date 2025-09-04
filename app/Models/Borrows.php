@@ -10,6 +10,17 @@ class Borrows extends Model
         'id_anggota',
         'trans_number',
         'return_date',
-        'note'
+        'note',
+        'status'
     ];
+
+    public function detailBorrow()
+    {
+        return $this->hasMany(DetailBorrows::class, 'id_borrows', 'id');
+    }
+
+    public function memberName()
+    {
+        return $this->belongsTo(Member::class, 'id_anggota', 'id');
+    }
 }

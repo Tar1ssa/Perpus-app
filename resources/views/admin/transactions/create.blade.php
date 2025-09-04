@@ -17,6 +17,30 @@
                         <div class="col-sm-6">
                             <div class="col-mb-3 row">
                                 <div class="col-sm-3">
+                                    <label for="" class="form-label">Tanggal Pengembalian</label>
+
+                                </div>
+                                <div class="col-sm-7">
+                                <input type="date" class="form-control" name="return_date"  value="">
+                                </div>
+                            </div>
+
+                            <div class="col-mb-3 row">
+                                <div class="col-sm-3">
+                                    <label for="" class="form-label">Catatan</label>
+
+                                </div>
+                                <div class="col-sm-7">
+                                    <textarea class='form-control' name="note" id=""></textarea>
+
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="col-sm-6">
+
+                            <div class="col-mb-3 row">
+                                <div class="col-sm-3">
                                     <label for="" class="form-label">No.Transaksi</label>
 
                                 </div>
@@ -31,7 +55,7 @@
 
                                 </div>
                                 <div class="col-sm-7">
-                                <select name="" id="id_anggota" class="form-control">
+                                <select name="id_anggota" id="id_anggota" class="form-control">
                                     <option value="" selected disabled>--Pilih Anggota--</option>
                                     @foreach ($members as $keymembers)
                                         <option value="{{ $keymembers->id }}">{{ $keymembers->nama }}</option>
@@ -47,7 +71,7 @@
 
                                 </div>
                                 <div class="col-sm-7">
-                                <select name="" id="id_category" class="form-control">
+                                <select name="id_category" id="id_category" class="form-control">
                                     <option value="" selected disabled>--Pilih Kategori--</option>
                                     @foreach ($categories as $keycategories)
                                         <option value="{{ $keycategories->id }}">{{ $keycategories->category_name }}</option>
@@ -63,7 +87,7 @@
 
                                 </div>
                                 <div class="col-sm-7">
-                                <select name="" id="id_books" class="form-control">
+                                <select name="id_books" id="id_books" class="form-control">
                                     {{-- <option value="" selected disabled>--Pilih Buku--</option> --}}
 
                                 </select>
@@ -89,10 +113,10 @@
                     </div>
                     </div>
 
-    <div class="mb-3">
-        <button type="submit" name="simpan" class="btn btn-primary">Simpan</button>
-        <a href="{{ url('transactions') }}">Kembali</a>
-    </div>
+                    <div class="mb-3">
+                        <button type="submit" name="simpan" class="btn btn-primary">Simpan</button>
+                        <a href="{{ url('transactions') }}">Kembali</a>
+                    </div>
                 </form>
 
             </div>

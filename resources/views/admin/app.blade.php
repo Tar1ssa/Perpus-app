@@ -102,7 +102,7 @@
 </script>
 
 <script>
-    let count = 0;
+    let count = 1;
     document.getElementById('addRow').addEventListener('click', function() {
         const tbody = document.querySelector('#tableTrans tbody');
         const selectBook = document.getElementById('id_books');
@@ -117,12 +117,20 @@
         const no = count++;
         const tr = document.createElement('tr');
         tr.innerHTML = `
-        <tr>${no}</tr>
-        <td>${Bookname}</td>
-        <td><button class='btn btn-danger'>Hapus</button></td>`;
+        <tr><td>${no}</td></tr>
+        <td>${Bookname}<input type="hidden" name="id_buku[]" value="${idBook}"</td>
+        <td><button class='btn btn-danger delete-row' type='submit' >Hapus</button></td>`;
 
         tbody.appendChild(tr);
     });
+
+    document.querySelector('#tableTrans tbody').addEventListener('click', function(e) {
+        if (e.target.classList.contains('delete-row')) {
+        e.target.closest('tr').remove();
+
+    }
+    });
+
 
 </script>
 
