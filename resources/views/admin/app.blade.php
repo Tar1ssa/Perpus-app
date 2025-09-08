@@ -39,6 +39,7 @@
 </head>
 
 <body>
+    @include('sweetalert::alert')
 
   <!-- ======= Header ======= -->
   @include('admin.inc.header')
@@ -65,6 +66,9 @@
     </section>
 
   </main><!-- End #main -->
+  @include('sweetalert::alert', ['cdn' => "https://cdn.jsdelivr.net/npm/sweetalert2@9"])
+
+
   <script>
     let category = document.querySelector('#id_category');
     category.addEventListener('change', async function(){

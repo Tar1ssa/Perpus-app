@@ -10,6 +10,8 @@ use Illuminate\Http\Request;
 use App\Models\DetailBorrows;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
+use RealRashid\SweetAlert\Facades\Alert;
+
 
 class transactionController extends Controller
 {
@@ -73,11 +75,18 @@ class transactionController extends Controller
             }
 
             DB::commit();
-            return redirect()->route('print-borrowed', $insertBorrow->id);
+            // Alert::success('Success', 'Transaksi berhasil dibuat');
+            // return redirect()->to('transactions');
+
+
+            // return redirect()->route('print-borrowed', $insertBorrow->id);
+            return to_route('print-borrowed', ['id' => $insertBorrow]);
+
             // return $insertBorrow->id;
             // return redirect()->to('print-borrowed', $insertBorrow->id);
         } catch (\Throwable $th) {
             DB::rollBack();
+            return Alert::error('oops!', $th->getMessage());
             return back()->withErrors(['Error' => 'transaksi gagal']);
         }
     }
@@ -112,7 +121,10 @@ class transactionController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $Borrows = Borrows::find($id);
+        $Borrows->detailBorrow()->delete();
+        $Borrows->delete();
+        return redirect()->to('transactions');
     }
 
     public function getBukuByIdCategory($id_category)
@@ -130,5 +142,32 @@ class transactionController extends Controller
         $borrow = Borrows::with('memberName', 'detailBorrow.books')->find($id_borrow);
         // $borrow = Borrows::find($id_borrow);
         return view('admin.transactions.print', compact('borrow'));
+    }
+
+    public function return(Request $request, $id)
+    {
+        $borrows = Borrows::findOrFail($id);
+
+        if (!$borrows->actual_return_date) {
+            $fine = 0;
+        }
+
+        $returndate = \Carbon\Carbon::parse($borrows->return_date);
+        $actualreturndate = \Carbon\Carbon::parse($borrows->actual_return_date);
+
+        // if ($actualreturndate > $returndate)
+        if ($actualreturndate->greaterThan($returndate)) {
+            $late = $returndate->diffInDays($actualreturndate);
+            $fine = $late * 10000;
+        }
+
+        // $borrows->actual_return_date = now();
+        $borrows->actual_return_date = Carbon::now();
+        $borrows->fine = $fine;
+        $borrows->status = 0;
+        $borrows->save();
+        Alert::success('Berhasil', 'buku berhasil dikembalikan');
+        // return $late;
+        return redirect()->to('transactions');
     }
 }
