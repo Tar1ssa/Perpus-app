@@ -145,30 +145,36 @@
             {{-- belum dikembalikan --}}
 
             <div class="mt-3">
-                <div class="table-responsive">
-                <table class="table table-bordered table-hover">
-                    <thead class="table-dark">
-                        <tr>
-                            <th>No.Transaksi</th>
-                            <th>Nama Anggota</th>
-                            <th>Denda</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach ($fines as $keyfines)
-                        <tr>
-                            <td>{{ $keyfines->trans_number }}</td>
-                            <td>{{ $keyfines->memberName->nama }}</td>
-                            <td>{{ $keyfines->fine }}</td>
-                        </tr>
-                        @endforeach
+                <div class="card">
+                    <div class="card-body">
+                        <div class="card-title">Daftar Peminjaman</div>
 
-                        <tr>
-                            <th>Total Denda</th>
-                            <th colspan="2" class="text-center">{{ $totalfines }}</th>
-                        </tr>
-                    </tbody>
-                </table>
+                        <div class="table-responsive">
+                        <table class="table table-bordered table-hover">
+                            <thead class="table-dark">
+                                <tr>
+                                    <th>No.Transaksi</th>
+                                    <th>Nama Anggota</th>
+                                    <th>Denda</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($fines as $keyfines)
+                                <tr>
+                                    <td>{{ $keyfines->trans_number }}</td>
+                                    <td>{{ $keyfines->memberName->nama }}</td>
+                                    <td>{{ $keyfines->fine }}</td>
+                                </tr>
+                                @endforeach
+
+                                <tr>
+                                    <th>Total Denda</th>
+                                    <th colspan="2" class="text-center">{{ $totalfines }}</th>
+                                </tr>
+                            </tbody>
+                        </table>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

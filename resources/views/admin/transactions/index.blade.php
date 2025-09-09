@@ -31,7 +31,7 @@
                                 <td>{{ $valuedatas->memberName->nama }}</td>
                                 <td>{{ $valuedatas->trans_number }}</td>
                                 <td>{{ $valuedatas->return_date }}</td>
-                                <td>{{ $valuedatas->actual_return_date }}</td>
+                                <td>{{ $valuedatas->actual_return_date ? $valuedatas->actual_return_date : 'Belum dikembalikan'}}</td>
                                 <td>{{ $valuedatas->note }}</td>
                                 <td>{{ number_format($valuedatas->fine) }}</td>
                                 <td>{{ $valuedatas->status == 1 ? 'Dipinjam' : 'Sudah dikembalikan' }}</td>

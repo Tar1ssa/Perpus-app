@@ -19,7 +19,7 @@
               <i class="bi bi-circle"></i><span>Member</span>
             </a>
           </li>
-
+        @if (auth()->user()->hasRole('Administrator'))
         <li>
             <a href="{{ route('location.index') }}">
               <i class="bi bi-circle"></i><span>Location</span>
@@ -31,13 +31,30 @@
               <i class="bi bi-circle"></i><span>Categories</span>
             </a>
           </li>
+          @endif
 
           <li>
             <a href="{{ route('books.index') }}">
               <i class="bi bi-circle"></i><span>Books</span>
             </a>
           </li>
+          @if (auth()->user()->hasRole('Administrator'))
+              <li>
+            <a href="{{ route('roles.index') }}">
+              <i class="bi bi-circle"></i><span>Roles</span>
+            </a>
+          </li>
+
+          <li>
+            <a href="{{ route('users.index') }}">
+              <i class="bi bi-circle"></i><span>Users</span>
+            </a>
+          </li>
+          @endif
+
         </ul>
+
+
       </li><!-- End Data Nav -->
 
       <li class="nav-item">
@@ -45,11 +62,14 @@
           <i class="bi bi-menu-button-wide"></i><span>Transaksi</span><i class="bi bi-chevron-down ms-auto"></i>
         </a>
         <ul id="transaksi-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
-          <li>
-            <a href="{{ route('transactions.index') }}">
-              <i class="bi bi-circle"></i><span>Pinjam Buku</span>
-            </a>
-          </li>
+        @if (auth()->user()->hasAnyRole(['Administrator', 'User']))
+        <li>
+          <a href="{{ route('transactions.index') }}">
+            <i class="bi bi-circle"></i><span>Pinjam Buku</span>
+          </a>
+        </li>
+
+          @endif
         </ul>
       </li>
 

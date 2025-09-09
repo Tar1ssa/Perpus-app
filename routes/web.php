@@ -1,10 +1,12 @@
 <?php
 
+use App\Http\Controllers\userController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\bookController;
 use App\Http\Controllers\MemberControllers;
 use App\Http\Controllers\categoryController;
 use App\Http\Controllers\locationController;
+use App\Http\Controllers\roleController;
 use App\Http\Controllers\transactionController;
 
 Route::get('/', function () {
@@ -51,12 +53,23 @@ Route::middleware('auth')->group(function () {
     // End Books
 
     // transaksi
-    Route::resource('transactions', transactionController::class);
+    Route::resource('transactions', transactionController::class)->middleware('role:User');
     Route::get('get-buku/{id}', [transactionController::class, 'getBukuByIdCategory']);
     Route::get('print-borrowed/{id}', [transactionController::class, 'print'])->name('print-borrowed');
     Route::post('transactions/{id}/return', [transactionController::class, 'return'])->name('transactions.return');
-
     // end transaksi
+
+    // Roles
+    Route::resource('roles', roleController::class);
+    // End Roles
+
+    // User
+    Route::resource('users', userController::class);
+
+    // Role user
+    Route::get('users/{id}/roles', [userController::class, 'editRole'])->name('users.roles');
+    Route::post('users/{id}/updateRole', [userController::class, 'updateRole'])->name('users.updateRole');
+    // End user
 });
 
 
