@@ -53,23 +53,25 @@ Route::middleware('auth')->group(function () {
     // End Books
 
     // transaksi
-    Route::resource('transactions', transactionController::class)->middleware('role:User');
-    Route::get('get-buku/{id}', [transactionController::class, 'getBukuByIdCategory']);
-    Route::get('print-borrowed/{id}', [transactionController::class, 'print'])->name('print-borrowed');
-    Route::post('transactions/{id}/return', [transactionController::class, 'return'])->name('transactions.return');
+    Route::resource('transactions', transactionController::class)->middleware('role:Administrator,Operator');
+    Route::get('get-buku/{id}', [transactionController::class, 'getBukuByIdCategory'])->middleware('role:Administrator,Operator');
+    Route::get('print-borrowed/{id}', [transactionController::class, 'print'])->name('print-borrowed')->middleware('role:Administrator,Operator');
+    Route::post('transactions/{id}/return', [transactionController::class, 'return'])->name('transactions.return')->middleware('role:Administrator,Operator');
     // end transaksi
 
-    // Roles
-    Route::resource('roles', roleController::class);
-    // End Roles
+    Route::middleware('role:Administrator')->group(function () {
+        // Roles
+        Route::resource('roles', roleController::class);
+        // End Roles
 
-    // User
-    Route::resource('users', userController::class);
+        // User
+        Route::resource('users', userController::class);
 
-    // Role user
-    Route::get('users/{id}/roles', [userController::class, 'editRole'])->name('users.roles');
-    Route::post('users/{id}/updateRole', [userController::class, 'updateRole'])->name('users.updateRole');
-    // End user
+        // Role user
+        Route::get('users/{id}/roles', [userController::class, 'editRole'])->name('users.roles');
+        Route::post('users/{id}/updateRole', [userController::class, 'updateRole'])->name('users.updateRole');
+        // End user
+    });
 });
 
 

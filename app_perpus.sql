@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 04, 2025 at 08:58 AM
+-- Generation Time: Sep 10, 2025 at 03:15 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -62,17 +62,30 @@ CREATE TABLE `borrows` (
   `return_date` date NOT NULL,
   `note` text DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL,
+  `status` tinyint(4) DEFAULT 1,
+  `actual_return_date` date DEFAULT NULL,
+  `fine` decimal(8,2) NOT NULL DEFAULT 0.00
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `borrows`
 --
 
-INSERT INTO `borrows` (`id`, `id_anggota`, `trans_number`, `return_date`, `note`, `created_at`, `updated_at`) VALUES
-(1, 5, 'TRNSC-20250904001', '2025-09-12', 'ad', '2025-09-03 19:24:47', '2025-09-03 19:24:47'),
-(2, 5, 'TRNSC-20250904001', '2025-09-12', 'ad', '2025-09-03 19:26:09', '2025-09-03 19:26:09'),
-(3, 6, 'TRNSC-20250904002', '2025-09-12', '22', '2025-09-03 19:47:29', '2025-09-03 19:47:29');
+INSERT INTO `borrows` (`id`, `id_anggota`, `trans_number`, `return_date`, `note`, `created_at`, `updated_at`, `deleted_at`, `status`, `actual_return_date`, `fine`) VALUES
+(2, 5, 'TRNSC-20250904001', '2025-09-12', 'ad', '2025-09-03 19:26:09', '2025-09-07 19:43:43', '2025-09-07 19:43:43', 1, NULL, 0.00),
+(3, 6, 'TRNSC-20250904002', '2025-09-12', '22', '2025-09-03 19:47:29', '2025-09-07 20:56:34', NULL, 0, '2025-09-08', 0.00),
+(19, 6, 'TRNSC-20250908001', '2025-09-09', 'tes', '2025-09-07 19:22:03', '2025-09-07 19:43:40', '2025-09-07 19:43:40', 1, NULL, 0.00),
+(20, 5, 'TRNSC-20250908002', '2025-09-09', 'dasd', '2025-09-07 19:24:02', '2025-09-07 20:56:31', NULL, 0, '2025-09-08', 0.00),
+(21, 5, 'TRNSC-20250908003', '2025-09-25', 'gg', '2025-09-07 19:39:27', '2025-09-07 21:20:02', NULL, 0, '2025-09-08', 0.00),
+(22, 5, 'TRNSC-20250908004', '2025-09-05', 'aa', '2025-09-07 20:49:52', '2025-09-07 23:01:03', NULL, 0, '2025-09-08', 30000.00),
+(23, 5, 'TRNSC-20250908005', '2025-09-02', 'sad', '2025-09-07 21:20:17', '2025-09-07 21:21:04', '2025-09-07 21:21:04', 0, '2025-09-08', 0.00),
+(24, 5, 'TRNSC-20250908005', '2025-09-03', 'ssad', '2025-09-07 21:21:14', '2025-09-07 21:24:04', NULL, 0, '2025-09-08', 50000.00),
+(25, 5, 'TRNSC-20250908006', '2025-09-02', 'asdas', '2025-09-07 21:25:39', '2025-09-07 21:25:51', NULL, 0, '2025-09-08', 61846.25),
+(26, 5, 'TRNSC-20250908007', '2025-09-08', 'ada', '2025-09-07 22:25:13', '2025-09-07 22:25:19', NULL, 0, '2025-09-08', 2259.19),
+(27, 6, 'TRNSC-20250908008', '2025-09-09', 'ada', '2025-09-08 00:03:21', '2025-09-08 19:17:06', NULL, 0, '2025-09-09', 952.18),
+(28, 5, 'TRNSC-20250908009', '2025-09-09', 'sdad', '2025-09-08 00:04:30', '2025-09-08 00:04:30', NULL, 1, NULL, 0.00);
 
 -- --------------------------------------------------------
 
@@ -130,20 +143,29 @@ CREATE TABLE `detail_borrows` (
   `id_borrows` bigint(20) UNSIGNED NOT NULL,
   `id_books` bigint(20) UNSIGNED NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `detail_borrows`
 --
 
-INSERT INTO `detail_borrows` (`id`, `id_borrows`, `id_books`, `created_at`, `updated_at`) VALUES
-(1, 1, 2, '2025-09-03 19:24:47', '2025-09-03 19:24:47'),
-(2, 1, 1, '2025-09-03 19:24:47', '2025-09-03 19:24:47'),
-(3, 2, 2, '2025-09-03 19:26:09', '2025-09-03 19:26:09'),
-(4, 2, 1, '2025-09-03 19:26:09', '2025-09-03 19:26:09'),
-(5, 3, 1, '2025-09-03 19:47:29', '2025-09-03 19:47:29'),
-(6, 3, 2, '2025-09-03 19:47:29', '2025-09-03 19:47:29');
+INSERT INTO `detail_borrows` (`id`, `id_borrows`, `id_books`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(3, 2, 2, '2025-09-03 19:26:09', '2025-09-07 19:43:43', '2025-09-07 19:43:43'),
+(4, 2, 1, '2025-09-03 19:26:09', '2025-09-07 19:43:43', '2025-09-07 19:43:43'),
+(5, 3, 1, '2025-09-03 19:47:29', '2025-09-03 19:47:29', NULL),
+(6, 3, 2, '2025-09-03 19:47:29', '2025-09-03 19:47:29', NULL),
+(31, 19, 1, '2025-09-07 19:22:03', '2025-09-07 19:43:40', '2025-09-07 19:43:40'),
+(32, 20, 1, '2025-09-07 19:24:02', '2025-09-07 19:24:02', NULL),
+(33, 21, 1, '2025-09-07 19:39:27', '2025-09-07 19:39:27', NULL),
+(34, 22, 2, '2025-09-07 20:49:52', '2025-09-07 20:49:52', NULL),
+(35, 23, 1, '2025-09-07 21:20:17', '2025-09-07 21:21:04', '2025-09-07 21:21:04'),
+(36, 24, 1, '2025-09-07 21:21:14', '2025-09-07 21:21:14', NULL),
+(37, 25, 1, '2025-09-07 21:25:39', '2025-09-07 21:25:39', NULL),
+(38, 26, 1, '2025-09-07 22:25:13', '2025-09-07 22:25:13', NULL),
+(39, 27, 1, '2025-09-08 00:03:21', '2025-09-08 00:03:21', NULL),
+(40, 28, 2, '2025-09-08 00:04:30', '2025-09-08 00:04:30', NULL);
 
 -- --------------------------------------------------------
 
@@ -274,7 +296,12 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (8, '2025_09_02_010839_create_books_table', 6),
 (9, '2025_09_02_013406_add_foreign_to_books', 7),
 (10, '2025_09_03_020905_create_borrows_table', 8),
-(11, '2025_09_03_022906_create_detail_borrows_table', 9);
+(11, '2025_09_03_022906_create_detail_borrows_table', 9),
+(12, '2025_09_08_014601_add_soft_delete_to_borrows_and_detail_borrows', 10),
+(13, '2025_09_08_024634_add_status_to_table_borrows', 11),
+(14, '2025_09_08_025906_add_return_columns_to_borrows_tabke', 12),
+(16, '2025_09_09_012634_create_roles_table', 13),
+(17, '2025_09_09_022154_create_user_roles_table', 14);
 
 -- --------------------------------------------------------
 
@@ -287,6 +314,29 @@ CREATE TABLE `password_reset_tokens` (
   `token` varchar(255) NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `roles`
+--
+
+CREATE TABLE `roles` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `roles`
+--
+
+INSERT INTO `roles` (`id`, `name`, `deleted_at`, `created_at`, `updated_at`) VALUES
+(1, 'Administrator', NULL, '2025-09-08 19:11:14', '2025-09-08 19:11:14'),
+(2, 'Operator', NULL, '2025-09-08 19:11:53', '2025-09-08 19:13:07'),
+(3, 'User', NULL, '2025-09-09 00:36:15', '2025-09-09 00:36:15');
 
 -- --------------------------------------------------------
 
@@ -308,7 +358,8 @@ CREATE TABLE `sessions` (
 --
 
 INSERT INTO `sessions` (`id`, `user_id`, `ip_address`, `user_agent`, `payload`, `last_activity`) VALUES
-('ovcGL3BpN8KIeQWJO30iN6crzAByQJSHidoEb4NI', 3, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Safari/537.36 Edg/139.0.0.0', 'YTo0OntzOjY6Il90b2tlbiI7czo0MDoibmlGUWZHRDJlc0p0ZVU0WmdVTjI2RmpRazFvaDNTZGFWOHZIYUNrViI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6Mzg6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9wcmludC9ib3Jyb3dlZC8xIjt9czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo1MDoibG9naW5fd2ViXzU5YmEzNmFkZGMyYjJmOTQwMTU4MGYwMTRjN2Y1OGVhNGUzMDk4OWQiO2k6Mzt9', 1756966140);
+('FlaN5qE51f7AjNmT2W3lnRFAmyEg17zIhM1nOadf', 3, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 Edg/140.0.0.0', 'YTo1OntzOjY6Il90b2tlbiI7czo0MDoiZjhsdnZ6VU5ka0dzR05uc2o4aHhrRzZGTWl5WFRWUVlZajhONlp3cyI7czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MzE6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9kYXNoYm9hcmQiO31zOjUwOiJsb2dpbl93ZWJfNTliYTM2YWRkYzJiMmY5NDAxNTgwZjAxNGM3ZjU4ZWE0ZTMwOTg5ZCI7aTozO3M6NToiYWxlcnQiO2E6MDp7fX0=', 1757405589),
+('wEsp1X5aL81vKs3nq6Lf0kEXWtF8Lffys4VhOTBI', 3, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 Edg/140.0.0.0', 'YTo1OntzOjY6Il90b2tlbiI7czo0MDoiUnVjRXJsSlRJRHp0bkwyU2dJNXVISVZIMWZDYW94RDNXcXRoaG5rRyI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6Mjc6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC91c2VycyI7fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fXM6NTA6ImxvZ2luX3dlYl81OWJhMzZhZGRjMmIyZjk0MDE1ODBmMDE0YzdmNThlYTRlMzA5ODlkIjtpOjM7czo1OiJhbGVydCI7YTowOnt9fQ==', 1757465333);
 
 -- --------------------------------------------------------
 
@@ -333,7 +384,31 @@ CREATE TABLE `users` (
 
 INSERT INTO `users` (`id`, `name`, `email`, `email_verified_at`, `password`, `remember_token`, `created_at`, `updated_at`) VALUES
 (1, 'admin', 'admin@admin.com', NULL, '$2y$12$QTSV7KPAvKCUxh9pSFGSxOewKfiNpB/15JNJ8a5osabzpEeS.pObO', NULL, '2025-08-28 21:30:19', '2025-08-28 21:30:19'),
-(3, 'admin1', 'admin@email.com', NULL, '$2y$12$uxEWtB.I3KPxOGAXq8GnquA69U2AYc.eI1j5sXnJEMivwXwWjPZ0e', NULL, '2025-08-28 21:47:02', '2025-08-28 21:47:02');
+(3, 'admin1', 'admin@email.com', NULL, '$2y$12$uxEWtB.I3KPxOGAXq8GnquA69U2AYc.eI1j5sXnJEMivwXwWjPZ0e', NULL, '2025-08-28 21:47:02', '2025-08-28 21:47:02'),
+(4, 'Adi Prabowo Kusumo', 'adiprabowok@gmail.com', NULL, '$2y$12$LA1aq08iDYBu49xbwlRXO.Otda5NWG16S2mkLW3AsReldRRc4BxCC', NULL, '2025-09-08 21:09:45', '2025-09-08 21:09:45');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `user_roles`
+--
+
+CREATE TABLE `user_roles` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `user_id` bigint(20) UNSIGNED NOT NULL,
+  `role_id` bigint(20) UNSIGNED NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `user_roles`
+--
+
+INSERT INTO `user_roles` (`id`, `user_id`, `role_id`, `created_at`, `updated_at`) VALUES
+(4, 3, 1, NULL, NULL),
+(8, 4, 2, NULL, NULL),
+(11, 1, 3, NULL, NULL);
 
 --
 -- Indexes for dumped tables
@@ -426,6 +501,12 @@ ALTER TABLE `password_reset_tokens`
   ADD PRIMARY KEY (`email`);
 
 --
+-- Indexes for table `roles`
+--
+ALTER TABLE `roles`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `sessions`
 --
 ALTER TABLE `sessions`
@@ -441,6 +522,14 @@ ALTER TABLE `users`
   ADD UNIQUE KEY `users_email_unique` (`email`);
 
 --
+-- Indexes for table `user_roles`
+--
+ALTER TABLE `user_roles`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `user_roles_id_user_foreign` (`user_id`),
+  ADD KEY `user_roles_id_role_foreign` (`role_id`);
+
+--
 -- AUTO_INCREMENT for dumped tables
 --
 
@@ -454,7 +543,7 @@ ALTER TABLE `books`
 -- AUTO_INCREMENT for table `borrows`
 --
 ALTER TABLE `borrows`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
 
 --
 -- AUTO_INCREMENT for table `categories`
@@ -466,7 +555,7 @@ ALTER TABLE `categories`
 -- AUTO_INCREMENT for table `detail_borrows`
 --
 ALTER TABLE `detail_borrows`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
 
 --
 -- AUTO_INCREMENT for table `failed_jobs`
@@ -496,13 +585,25 @@ ALTER TABLE `members`
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+
+--
+-- AUTO_INCREMENT for table `roles`
+--
+ALTER TABLE `roles`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- AUTO_INCREMENT for table `user_roles`
+--
+ALTER TABLE `user_roles`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- Constraints for dumped tables
@@ -527,6 +628,13 @@ ALTER TABLE `borrows`
 ALTER TABLE `detail_borrows`
   ADD CONSTRAINT `detail_borrows_id_books_foreign` FOREIGN KEY (`id_books`) REFERENCES `books` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT `detail_borrows_id_borrows_foreign` FOREIGN KEY (`id_borrows`) REFERENCES `borrows` (`id`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `user_roles`
+--
+ALTER TABLE `user_roles`
+  ADD CONSTRAINT `user_roles_id_role_foreign` FOREIGN KEY (`role_id`) REFERENCES `roles` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `user_roles_id_user_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
